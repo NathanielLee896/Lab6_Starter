@@ -43,7 +43,31 @@ async function fetchRecipes() {
     // in the recipes folder and fetch them from there. You'll need to add their paths to the recipes array.
 
     // Part 1 Expose - TODO
+    fetchRecipesHelper()
+    .then(data => {
+      if (data === recipes.length) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
   });
+}
+
+async function fetchRecipesHelper() {
+    let dataCount = 0;
+    for (let endpoint of recipes) {
+      let response = await fetch(endpoint);
+      
+      if (!response.ok) {
+        return -1;
+      }
+
+      let responseData = await response.json();
+      dataCount++;
+      recipeData[`recipe ${dataCount}`] = responseData;
+    }
+    return dataCount;
 }
 
 function createRecipeCards() {
