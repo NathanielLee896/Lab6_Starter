@@ -142,8 +142,15 @@ class RecipeCard extends HTMLElement {
     }
 
     const time = document.createElement('time');
+    var timeToCook = searchForKey(data, 'totalTime');
+    time.textContent = convertTime(timeToCook);
     card.appendChild(time);
+
     const ingredient = document.createElement('p');
+    ingredient.setAttribute('class', 'ingredients');
+    var list = searchForKey(data, 'recipeIngredient');
+    var listResults = createIngredientList(list);
+    ingredient.textContent = listResults;
     card.appendChild(ingredient); 
 
     // Some functions that will be helpful here:
