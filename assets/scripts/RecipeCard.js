@@ -3,6 +3,8 @@ class RecipeCard extends HTMLElement {
     // Part 1 Expose - TODO
 
     // You'll want to attach the shadow DOM here
+    super();
+    let shadow = this.attachShadow({mode: 'open'});
   }
 
   set data(data) {
@@ -87,6 +89,36 @@ class RecipeCard extends HTMLElement {
 
     // Here's the root element that you'll want to attach all of your other elements to
     const card = document.createElement('article');
+    this.shadowRoot.appendChild(card);
+    this.shadowRoot.appendChild(styles);
+    const image = document.createElement('img');
+    console.log(object.keys(data));
+    var imageLink = searchForKey(data, 'img');
+    // TODO: create custom function to extract image url?
+    card.appendChild(image);
+    const title = document.createElement('p');
+    card.appendChild(title);
+    const titleLink = document.createElement('a');
+    title.appendChild(titleLink);
+    const org = document.createElement('p');
+    card.appendChild(org);
+    const rating = document.createElement('div');
+    card.appendChild(rating);
+    const review = document.createElement('span');
+    rating.appendChild(review);
+    if (data.rating) {
+      // review.textContent = [review out of 5 from data];
+      const stars = document.createElement('img');
+      rating.appendChild(stars);
+      const count = document.createElement('span');
+      rating.appendChild(count);    
+    } else {
+      review.textContent = 'No Review';
+    }
+    const time = document.createElement('time');
+    card.appendChild(time);
+    const ingredient = document.createElement('p');
+    card.appendChild(ingredient); 
 
     // Some functions that will be helpful here:
     //    document.createElement()
