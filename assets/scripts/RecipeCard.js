@@ -90,20 +90,28 @@ class RecipeCard extends HTMLElement {
     // Here's the root element that you'll want to attach all of your other elements to
     const card = document.createElement('article');
     this.shadowRoot.appendChild(card);
-    this.shadowRoot.appendChild(styles);
+    this.shadowRoot.appendChild(styleElem);
     const image = document.createElement('img');
-    console.log(object.keys(data));
-    var imageLink = searchForKey(data, 'img');
-    // TODO: create custom function to extract image url?
+    var imageLink = searchForKey(data, 'image');
+    var imageURL = searchForKey(data, 'thumbnailUrl');
+    image.src = imageURL;
+
     card.appendChild(image);
     const title = document.createElement('p');
+    var titleName = searchForKey(data, 'headline');
+    title.textContent = titleName;
     card.appendChild(title);
+
     const titleLink = document.createElement('a');
+    
     title.appendChild(titleLink);
+
     const org = document.createElement('p');
     card.appendChild(org);
+    
     const rating = document.createElement('div');
     card.appendChild(rating);
+    
     const review = document.createElement('span');
     rating.appendChild(review);
     if (data.rating) {
@@ -115,6 +123,7 @@ class RecipeCard extends HTMLElement {
     } else {
       review.textContent = 'No Review';
     }
+
     const time = document.createElement('time');
     card.appendChild(time);
     const ingredient = document.createElement('p');
