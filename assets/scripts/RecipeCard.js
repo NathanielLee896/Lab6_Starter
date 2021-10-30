@@ -98,7 +98,7 @@ class RecipeCard extends HTMLElement {
     card.appendChild(image);
 
     const title = document.createElement('p');
-    title.class = "title";
+    title.setAttribute('class', 'title');
     card.appendChild(title);
 
     const titleLink = document.createElement('a');
@@ -115,26 +115,28 @@ class RecipeCard extends HTMLElement {
 
     const org = document.createElement('p');
     var organization = getOrganization(data);
-    org.class = "organization";
+    org.setAttribute('class', 'organization');
     org.textContent = organization;
-    console.log(organization);
     card.appendChild(org);
     
     const rating = document.createElement('div');
-    rating.class = "rating";
+    rating.setAttribute('class', 'rating');
     card.appendChild(rating);
     
     const review = document.createElement('span');
     var ratingStars = searchForKey(data, 'ratingValue');
-    review.textContent = ratingStars;
-    console.log(ratingStars);
     rating.appendChild(review);
     if (ratingStars) {
-      // review.textContent = [review out of 5 from data];
+      review.textContent = ratingStars;
       const stars = document.createElement('img');
+      stars.src = `assets/images/icons/${Math.round(ratingStars)}-star.svg`;
+      stars.alt = Math.round(ratingStars);
       rating.appendChild(stars);
+
       const count = document.createElement('span');
-      rating.appendChild(count);    
+      var ratingNumber = searchForKey(data, 'ratingCount');
+      count.textContent = "(" + ratingNumber + ")";
+      rating.appendChild(count);
     } else {
       review.textContent = 'No Review';
     }
