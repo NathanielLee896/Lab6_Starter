@@ -92,29 +92,44 @@ class RecipeCard extends HTMLElement {
     this.shadowRoot.appendChild(card);
     this.shadowRoot.appendChild(styleElem);
     const image = document.createElement('img');
-    var imageLink = searchForKey(data, 'image');
     var imageURL = searchForKey(data, 'thumbnailUrl');
     image.src = imageURL;
-
+    image.alt = "Recipe Title";
     card.appendChild(image);
+
     const title = document.createElement('p');
-    var titleName = searchForKey(data, 'headline');
-    title.textContent = titleName;
+    title.class = "title";
     card.appendChild(title);
 
     const titleLink = document.createElement('a');
-    
+    // get article url
+    var websiteLink = searchForKey(data, 'mainEntityOfPage');
+    if (typeof websiteLink === 'object') {
+      websiteLink = searchForKey(websiteLink, '@id');
+    }
+    titleLink.href = websiteLink;
+    // set title
+    var titleName = searchForKey(data, 'headline');
+    titleLink.textContent = titleName;
     title.appendChild(titleLink);
 
     const org = document.createElement('p');
+    var organization = getOrganization(data);
+    org.class = "organization";
+    org.textContent = organization;
+    console.log(organization);
     card.appendChild(org);
     
     const rating = document.createElement('div');
+    rating.class = "rating";
     card.appendChild(rating);
     
     const review = document.createElement('span');
+    var ratingStars = searchForKey(data, 'ratingValue');
+    review.textContent = ratingStars;
+    console.log(ratingStars);
     rating.appendChild(review);
-    if (data.rating) {
+    if (ratingStars) {
       // review.textContent = [review out of 5 from data];
       const stars = document.createElement('img');
       rating.appendChild(stars);
